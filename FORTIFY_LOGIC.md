@@ -14,8 +14,8 @@ By default, Fortify runs these steps:
 - **Credential Validation**: Checks if the email and password match.
 - **Session Preparation**: Prepares the user's session.
 
-### 2. Our Custom Interception
-In this project, we have modified the pipeline in `FortifyServiceProvider.php` to include a custom step: `RedirectToOtpChallenge`.
+### 2. Custom Interception
+On this task I  modified the pipeline in `FortifyServiceProvider.php` to include a custom step: `RedirectToOtpChallenge`.
 
 ```php
 Fortify::authenticateThrough(function (Request $request) {
@@ -23,7 +23,7 @@ Fortify::authenticateThrough(function (Request $request) {
         config('fortify.limiters.login') ? \Laravel\Fortify\Actions\EnsureLoginIsNotThrottled::class : null,
         \Laravel\Fortify\Actions\PrepareAuthenticatedSession::class,
         \Laravel\Fortify\Actions\AttemptToAuthenticate::class,
-        \App\Actions\Otp\RedirectToOtpChallenge::class, // <--- Our Custom Logic
+        \App\Actions\Otp\RedirectToOtpChallenge::class, // <--- Custom Logic
     ]);
 });
 ```
@@ -54,8 +54,8 @@ By logging the user out *before* the MFA challenge, we ensure that no private da
 ### 3. Modular & Maintainable
 Because each step is an "Action" class (like `CreateNewUser.php`), the code is:
 - **Easy to read**: Each file does exactly one thing.
-- **Easy to test**: We can test the MFA logic without running the whole login flow.
-- **Flexible**: We can easily add new MFA methods (like SMS or Biometrics) by just adding a new worker to the pipeline.
+- **Easy to test**: I can test the MFA logic without running the whole login flow.
+- **Flexible**: I can easily add new MFA methods (like SMS or Biometrics) by just adding a new worker to the pipeline.
 
 ---
 
